@@ -73,7 +73,7 @@ let movies = [
   },
 ];
 
-// CREATE
+// CREATE user
 app.post("/users", (req, res) => {
   const newUser = req.body;
 
@@ -86,7 +86,7 @@ app.post("/users", (req, res) => {
   }
 });
 
-// UPDATE
+// UPDATE username
 app.put("/users/:id", (req, res) => {
   const { id } = req.params;
   const updatedUser = req.body;
@@ -101,7 +101,7 @@ app.put("/users/:id", (req, res) => {
   }
 });
 
-// CREATE
+// CREATE add favorite movie
 app.post("/users/:id/:movieTitle", (req, res) => {
   const { id, movieTitle } = req.params;
 
@@ -116,7 +116,7 @@ app.post("/users/:id/:movieTitle", (req, res) => {
   }
 });
 
-// DELETE
+// DELETE favorite movie
 app.delete("/users/:id/:movieTitle", (req, res) => {
   const { id, movieTitle } = req.params;
 
@@ -148,14 +148,17 @@ app.delete("/users/:id", (req, res) => {
   }
 });
 
+// home page
 app.get("/", (req, res) => {
   res.send("Home Page");
 });
 
+// GET all movies
 app.get("/movies", (req, res) => {
   res.status(200).json(movies);
 });
 
+// GET movie by title
 app.get("/movies/:title", (req, res) => {
   const { title } = req.params;
   const movie = movies.find((movie) => movie.title === title);
@@ -167,6 +170,7 @@ app.get("/movies/:title", (req, res) => {
   }
 });
 
+// GET genre
 app.get("/movies/genres/:genreName", (req, res) => {
   const { genreName } = req.params;
   const genre = movies.find((movie) => movie.genres.name === genreName).genres;
@@ -178,6 +182,7 @@ app.get("/movies/genres/:genreName", (req, res) => {
   }
 });
 
+// GET director
 app.get("/movies/directors/:directorName", (req, res) => {
   const { directorName } = req.params;
   const director = movies.find(
