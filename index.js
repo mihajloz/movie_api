@@ -185,7 +185,7 @@ app.get(
   (req, res) => {
     const { title } = req.params;
 
-    Movies.findOne({ title: title })
+    Movies.findOne({ Title: title })
       .then((movie) => {
         if (movie) {
           res.status(200).json(movie);
