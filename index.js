@@ -164,6 +164,7 @@ app.delete(
 );
 
 // CREATE add favorite movie
+{/*
 app.post(
   "/users/:username/movies",
   passport.authenticate("jwt", { session: false }),
@@ -189,8 +190,28 @@ app.post(
       });
   }
 );
+*/}
+app.post("/users/:username/movies/:movieId", passport.authenticate("jwt", { session: false }), (req, res) => {
+    if (req.params.username === req.user.username) {
+        Users.findOneAndUpdate({ username: req.params.username }, {
+            $push: { favoriteMovies: req.params.movieId } 
+        }, { new: true }, (err, updatedUser) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send("Error: " + err);
+            } else {
+                res.status(200).json(updatedUser);
+            }
+        });
+    } else {
+        res.status(500).send("Unauthorized");
+    }
+});
+
+
 
 // DELETE favorite movie
+{/*
 app.delete(
   "/users/:username/movies/:movieId",
   passport.authenticate("jwt", { session: false }),
@@ -215,6 +236,25 @@ app.delete(
       });
   }
 );
+*/}
+app.delete("/users/:username/movies/:movieId", passport.authenticate("jwt", { session: false }), (req, res) => {
+    if (req.params.username === req.user.username) {
+        Users.findOneAndUpdate({ username: req.params.username }, {
+            $pull: { favoriteMovies: req.params.movieId } 
+        }, { new: true }, (err, updatedUser) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send("Error: " + err);
+            } else {
+                res.status(200).json(updatedUser);
+            }
+        });
+
+    } else {
+        res.status(500).send("Unauthorized");
+    }
+});
+
 
 // home page
 app.get("/", (req, res) => {
