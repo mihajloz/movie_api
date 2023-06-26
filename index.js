@@ -165,55 +165,51 @@ app.delete(
 
 // CREATE add favorite movie
 app.post(
-  "/users/:username/movies/:movieId",
+  "/users/:Username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    if (req.params.username === req.user.username) {
-      Users.findOneAndUpdate(
-        { username: req.params.username },
-        {
-          $addToSet: { favoriteMovies: req.params.movieId },
-        },
-        { new: true },
-        (err, updatedUser) => {
-          if (err) {
-            console.error(err);
-            res.status(500).send("Error: " + err);
-          } else {
-            res.status(200).json(updatedUser);
-          }
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      { $addToSet: { FavoriteMovies: req.params.MovieID } },
+      { new: true }
+    )
+      .then((updatedUser) => {
+        if (!updatedUser) {
+          return res.status(404).send("Error: User not found");
+        } else {
+          res.json(updatedUser);
         }
-      );
-    } else {
-      res.status(500).send("Unauthorized");
-    }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
   }
 );
 
 // DELETE favorite movie
 app.delete(
-  "/users/:username/movies/:movieId",
+  "/users/:Username/movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    if (req.params.username === req.user.username) {
-      Users.findOneAndUpdate(
-        { username: req.params.username },
-        {
-          $pull: { favoriteMovies: req.params.movieId },
-        },
-        { new: true },
-        (err, updatedUser) => {
-          if (err) {
-            console.error(err);
-            res.status(500).send("Error: " + err);
-          } else {
-            res.status(200).json(updatedUser);
-          }
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $pull: { FavoriteMovies: req.params.MovieID },
+      },
+      { new: true }
+    )
+      .then((updatedUser) => {
+        if (!updatedUser) {
+          return res.status(404).send("Error: User not found");
+        } else {
+          res.json(updatedUser);
         }
-      );
-    } else {
-      res.status(500).send("Unauthorized");
-    }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
   }
 );
 
