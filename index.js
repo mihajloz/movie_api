@@ -55,6 +55,28 @@ app.get(
   }
 );
 
+// GET a single user by name
+app.get(
+  "/users/:username",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { username } = req.params;
+
+    Users.findOne({ Username: username })
+      .then((user) => {
+        if (user) {
+          res.status(200).json(user);
+        } else {
+          res.status(404).send("User not found");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
+
 // CREATE user
 app.post(
   "/users",
