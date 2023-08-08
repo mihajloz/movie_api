@@ -235,6 +235,28 @@ app.delete(
   }
 );
 
+// Check if a movie is in the user's favorites
+app.get(
+  "/users/:Username/movies/:MovieID",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { Username, MovieID } = req.params;
+
+    Users.findOne({ Username, FavoriteMovies: MovieID })
+      .then((user) => {
+        if (user) {
+          res.status(200).json({ isFavorite: true });
+        } else {
+          res.status(200).json({ isFavorite: false });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
+
 // home page
 app.get("/", (req, res) => {
   res.send("Home Page");
