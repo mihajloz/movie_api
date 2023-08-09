@@ -4,7 +4,7 @@ This project aims to create the backend component of a "movies" web application 
 
 ## Objective
 
-The objective of this project is to build the server-side component of the myFlix web application. This component will be responsible for handling user requests, processing data, interacting with the database, and providing the necessary information to the client-side of the application.
+The objective of this project is to build the server-side component of the Cinemate web application. This component will be responsible for handling user requests, processing data, interacting with the database, and providing the necessary information to the client-side of the application.
 
 ## Tech Stack
 
@@ -45,7 +45,7 @@ The Cinemate server-side web application has been developed to meet the project'
 
 ## Usage
 
-To use the myFlix server-side web application, follow these steps:
+To use the Cinemate server-side web application, follow these steps:
 
 1. Clone the repository to your local machine.
 2. Install the required dependencies using `npm install`.
